@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Sale]
+(
+	[Id] INT NOT NULL PRIMARY KEY Identity, 
+    [CashierId] NVARCHAR(128) NOT NULL, 
+    [SaleDate] DATETIME2 NOT NULL
+
+)

@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using TRMDesktopUI.Helpers;
+using TRMDesktopUI.Library.Helpers;
+using TRMDesktopUI.Library.Models;
 using TRMDesktopUI.ViewModels;
 
 namespace TRMDesktopUI
@@ -19,10 +20,14 @@ namespace TRMDesktopUI
         }
         protected override void Configure()
         {
-            _container.Instance(_container);
+            _container.Instance(_container)
+                .PerRequest<IProductEndPoint, ProductEndPoint>()
+                .PerRequest<ISaleEndPoint, SaleEndPoint>();
             _container.Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
-                .Singleton<IAPIHelper, APIHelper>();
+                .Singleton<ILoggedInUserModel, LoggedInUserModel>()
+                .Singleton<IAPIHelper, APIHelper>()
+                .Singleton<IConfigHelper, ConfigHelper>();
             GetType().Assembly.GetTypes().Where(type => type.IsClass)
                             .Where(type => type.Name.EndsWith("ViewModel"))
                             .ToList()

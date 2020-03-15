@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TRMDesktopUI.Helpers;
+using TRMDesktopUI.EventModels;
+using TRMDesktopUI.Library.Helpers;
 
 namespace TRMDesktopUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        private string _userName;
+        private string _userName ="test@gmail.com";
         private IAPIHelper _APIHelper;
-        public LoginViewModel(IAPIHelper aPIHelper)
+        private IEventAggregator _evenAggregator;
+        public LoginViewModel(IAPIHelper aPIHelper, IEventAggregator eventAggregator)
         {
             _APIHelper = aPIHelper;
+            _evenAggregator = eventAggregator;
         }
 
         public string UserName
@@ -27,7 +30,7 @@ namespace TRMDesktopUI.ViewModels
 
             }
         }
-        private string _password;
+        private string _password ="Hh@123456";
 
         public string Password
         {
@@ -38,6 +41,29 @@ namespace TRMDesktopUI.ViewModels
                 NotifyOfPropertyChange(() => Password);
             }
         }
+        public bool IsErrorVisible
+        {
+            get
+            {
+                bool output = false;
+                if (ErrorMessage?.Length > 0)
+                {
+                    output = true;
+                }
+                return output;
+            }
+        }
+        private string _errorMessage;
+
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set { _errorMessage = value;
+                NotifyOfPropertyChange(() => IsErrorVisible);
+                NotifyOfPropertyChange(() => ErrorMessage);
+            }
+        }
+
         public bool CanLogIn(string userName, string password)
         {
             if (userName.Length > 0 && password.Length > 0)
@@ -53,12 +79,14 @@ namespace TRMDesktopUI.ViewModels
         {
             try
             {
+                ErrorMessage = string.Empty;
                 var result = await _APIHelper.Authenticate(UserName, Password);
-
+                await _APIHelper.GetLoggedInUserInfo(result.Access_Token);
+                _evenAggregator.PublishOnUIThread(new LogOnEvent());
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex);
+                ErrorMessage = ex.Message;
             }
         }
 

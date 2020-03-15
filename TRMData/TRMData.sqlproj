@@ -70,5 +70,7 @@
     <Build Include="dbo\Tables\SaleDetail.sql" />
     <Build Include="dbo\Tables\Product.sql" />
     <Build Include="dbo\Tables\Inventory.sql" />
+    <Build Include="dbo\StoredProcedure\spUserLookUp.sql" />
+    <Build Include="dbo\Tables\User_1.sql" />
   </ItemGroup>
 </Project>

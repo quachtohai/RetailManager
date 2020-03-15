@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TRMDesktopUI.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="425" d:DesignWidth="800" Background="White" FontSize="25">
+             d:DesignHeight="425" d:DesignWidth="800" Background="White" FontSize="15">
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -19,25 +19,32 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
-                   FontFamily="Avinir" FontSize="64" 
+        <TextBlock x:Name="ErrorMessage" Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter},FallbackValue=Collapsed}"
+            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+                   FontFamily="Avinir" FontSize="18" 
+                   HorizontalAlignment="center" Margin="0 0 0 10" Foreground="Red"
+                   MaxWidth="500" TextWrapping="Wrap">           
+        </TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
+                   FontFamily="Avinir" FontSize="40" 
                    HorizontalAlignment="center" Margin="0 0 0 10">
             Login Form
         </TextBlock>
-        <TextBlock Grid.Row="1" Grid.Column ="1" Margin="0 0 0 10">
+        <TextBlock Grid.Row="2" Grid.Column ="1"  Grid.RowSpan="2" Padding="0 0 10 0">
             UserName:
         </TextBlock>
-        <TextBox x:Name="UserName" Grid.Row="1" Grid.Column ="2" Margin="0 0 0 10" MinWidth="100"></TextBox>
-        <TextBlock Grid.Row="2" Grid.Column ="1" Margin="0 0 0 10">
+        <TextBox x:Name="UserName" Grid.Row="2" Grid.Column ="2" Margin="0 0 0 10" MinWidth="150"></TextBox>
+        <TextBlock Grid.Row="3" Grid.Column ="1" Margin="0 0 0 10" Padding="0 0 10 0 ">
             Password:
         </TextBlock>
         <TextBox x:Name="Password" 
-                     Grid.Row="2" Grid.Column ="2" 
-                     Margin="0 0 0 10" MinWidth="100">
+                     Grid.Row="3" Grid.Column ="2" 
+                     Margin="0 0 0 10" MinWidth="150">
         </TextBox>
         <Button x:Name="LogIn" Grid.Column="1" 
-                Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Padding="20 5">Login</Button>
+                Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" Padding="20 5">Login</Button>
     </Grid>
 </UserControl>
